@@ -1,0 +1,28 @@
+image: docker:19.03.1
+variables:
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
+services:
+  - docker:19.03.1-dind
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+build:api:
+  stage: build
+  script:
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build -f ./.config/deploy/build.Dockerfile --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+build:migrations:
+  stage: build
+  script:
+    - docker build -f ./.config/deploy/migr.Dockerfile --tag $CI_REGISTRY_IMAGE:migr_$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:migr_latest .
+    - docker push $CI_REGISTRY_IMAGE:migr_$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:migr_latest
+
+
+
+
