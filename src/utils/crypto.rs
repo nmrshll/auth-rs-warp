@@ -90,7 +90,7 @@ pub mod authn {
             b.extend_from_slice(&self.claims.exp.to_be_bytes());
             b.extend_from_slice(&self.claims.userID.to_be_bytes());
             b.extend_from_slice(&self.sig.to_bytes());
-            dbg!(&b.len()); // should be 88 ?
+            // b.len is 88
             b.to_vec()
         }
         pub fn from_bytes<'a>(bytes: &'a [u8]) -> Result<Self, AnyErr> {

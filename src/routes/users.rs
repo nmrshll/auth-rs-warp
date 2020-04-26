@@ -47,7 +47,6 @@ pub async fn user_login(authIn: UserAuthIn) -> Result<impl Reply, Rejection> {
 
     // set signed cookie with userID
     let token = AuthnToken::from_userId(user.id)?;
-    dbg!(&token);
     Ok(Response::builder()
         .header("Set-Cookie", token.header_val())
         .body(json!(UserResp::from(user)).to_string()))

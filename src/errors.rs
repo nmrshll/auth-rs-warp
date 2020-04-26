@@ -22,16 +22,9 @@ impl From<ServiceError> for warp::reject::Rejection {
         warp::reject::custom(e)
     }
 }
-// impl From<ServiceError> for StatusCode {
-//     fn from(e: ServiceError) -> Self {
-//         match e{
-//             Unauthorized =>
-//         }
-//     }
-// }
+
 impl From<r2d2::Error> for ServiceError {
     fn from(e: r2d2::Error) -> Self {
-        dbg!("r2d2 error", &e);
         ServiceError::Other(e.into())
     }
 }
@@ -45,15 +38,8 @@ impl From<argonautica::Error> for ServiceError {
         }
     }
 }
-// impl From<secp256k1::Error> for ServiceError {
-//     fn from(e: secp256k1::Error) -> Self {
-//         dbg!("secp error", &e);
-//         ServiceError::Other(e.into())
-//     }
-// }
 impl From<base64::DecodeError> for ServiceError {
     fn from(e: base64::DecodeError) -> Self {
-        dbg!("base64 error", &e);
         ServiceError::Other(e.into())
     }
 }
@@ -134,6 +120,5 @@ impl From<StatusCode> for ErrMsg {
 }
 
 pub async fn handle_rejection(r: Rejection) -> Result<impl Reply, Infallible> {
-    dbg!(&r);
     Ok(ErrMsg::from(r).into_reply())
 }
