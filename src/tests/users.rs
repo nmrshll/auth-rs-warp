@@ -2,7 +2,7 @@ pub mod helpers {
     use rand::distributions::Alphanumeric;
     use rand::{rngs::StdRng, Rng, SeedableRng};
 
-    pub async fn registerUser() -> crate::models::UserResp {
+    pub async fn registerUser() -> Result<crate::models::UserResp, anyhow::Error> {
         let rng = StdRng::seed_from_u64(124356);
         let rand_string: String = rng.sample_iter(&Alphanumeric).take(12).collect();
 
@@ -16,8 +16,8 @@ pub mod helpers {
             .reply(&crate::router()) // Server routes to respond with
             .await;
 
-        let userResp: crate::models::UserResp = serde_json::from_slice(&res.body()).unwrap();
-        userResp
+        let userResp: crate::models::UserResp = serde_json::from_slice(&res.body())?;
+        Ok(userResp)
     }
 }
 
@@ -25,8 +25,8 @@ pub mod login {
     use super::*;
     // Happy path
     #[tokio::test]
-    async fn test__users_login__OK() {
-        let user = helpers::registerUser().await.user;
+    async fn test__users_login__OK() -> Result<(), anyhow::Error> {
+        let user = helpers::registerUser().await?.user;
         let res = warp::test::request()
             .method("POST")
             .path("/users/login")
@@ -36,11 +36,11 @@ pub mod login {
             ))
             .reply(&crate::router()) // Server routes to respond with
             .await;
+        let userResp: crate::models::UserResp = serde_json::from_slice(&res.body())?;
+
         assert_eq!(res.status(), 200, "Should return 200 OK.");
-        assert_eq!(
-            res.body(),
-            "{\"user\":{\"email\":\"UEnMNYNMk3qJ@gmail.com\",\"id\":2}}"
-        );
+        assert_eq!(userResp.user.email, "UEnMNYNMk3qJ@gmail.com");
+        Ok(())
     }
 
     // User doesn't exist in DB
@@ -78,18 +78,18 @@ pub mod login {
 pub mod register {
     // Happy path
     #[tokio::test]
-    async fn test__users_register__OK() {
+    async fn test__users_register__OK() -> Result<(), anyhow::Error> {
         let res = warp::test::request()
             .method("POST")
             .path("/users/register")
             .body(r#"{"email":"will.register@gmail.com", "password":"nopass"}"#)
             .reply(&crate::router()) // Server routes to respond with
             .await;
+        let userResp: crate::models::UserResp = serde_json::from_slice(&res.body())?;
+
         assert_eq!(res.status(), 200, "Should return 200 OK.");
-        assert_eq!(
-            res.body(),
-            r#"{"user":{"email":"will.register@gmail.com","id":1}}"#
-        );
+        assert_eq!(userResp.user.email, "will.register@gmail.com");
+        Ok(())
     }
 
     // register twice: 409 already exists
