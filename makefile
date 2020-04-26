@@ -4,8 +4,8 @@ dev: deps pg adminer migrate
 	cargo watch -x run
 build:
 	docker build -f .config/deploy/build.Dockerfile -t ${cwd} . 
-test:
-	cargo test -- --nocapture
+test: down deps pg migrate
+	RUST_BACKTRACE=full cargo test -- --nocapture 
 
 
 # REQUESTS

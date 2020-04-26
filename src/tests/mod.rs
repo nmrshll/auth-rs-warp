@@ -7,7 +7,7 @@ mod users;
 async fn test_getRoot() {
     let res = warp::test::request()
         .method("GET")
-        .path("/") // 1. [Client] - Define request(path with datas) until this
+        .path("/")
         .reply(&crate::router()) // Server routes to respond with
         .await;
 

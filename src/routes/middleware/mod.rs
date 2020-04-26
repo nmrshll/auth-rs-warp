@@ -57,7 +57,7 @@ async fn cookieAuthnStep2(token_str: String) -> Result<AuthnToken, Rejection> {
 
 //         // let res = warp::test::request()
 //         //     .method("GET")
-//         //     .path("/hello/www.steadylearner.com") // 1. [Client] - Define request(path with datas) until this
+//         //     .path("/hello/www.steadylearner.com")
 //         //     .reply(&hello!()) // 2. [Server] - How will you respond to it? With what?
 //         //     .await;
 
