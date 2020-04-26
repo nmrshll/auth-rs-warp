@@ -35,12 +35,12 @@ impl<'a> NewUser<'a> {
 }
 
 /// UserResp represents a User as gets returned by the API
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct UserResp {
     pub user: UserPub,
 }
 /// UserPub is a User stripped to essential, public fields
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct UserPub {
     pub id: i64,
     pub email: String,

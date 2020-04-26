@@ -1,16 +1,47 @@
-mod login {
+pub mod helpers {
+    use rand::distributions::Alphanumeric;
+    use rand::{rngs::StdRng, Rng, SeedableRng};
+
+    pub async fn registerUser() -> crate::models::UserResp {
+        let rng = StdRng::seed_from_u64(124356);
+        let rand_string: String = rng.sample_iter(&Alphanumeric).take(12).collect();
+
+        let res = warp::test::request()
+            .method("POST")
+            .path("/users/register")
+            .body(format!(
+                r#"{{"email":"{}@gmail.com", "password":"nopass"}}"#,
+                rand_string
+            ))
+            .reply(&crate::router()) // Server routes to respond with
+            .await;
+
+        let userResp: crate::models::UserResp = serde_json::from_slice(&res.body()).unwrap();
+        userResp
+    }
+}
+
+pub mod login {
+    use super::*;
     // Happy path
-    // #[tokio::test]
-    // async fn test__users_login__OK() {
-    //     let res = warp::test::request()
-    //         .method("POST")
-    //         .path("/users/login")
-    //         .body(&"{\"email\":\"Icanthazexists@gmail.com\", \"password\":\"nopass\"}")
-    //         .reply(&crate::router()) // Server routes to respond with
-    //         .await;
-    //     assert_eq!(res.status(), 200, "Should return 200 OK.");
-    //     assert_eq!(res.body(), "Hello world !");
-    // }
+    #[tokio::test]
+    async fn test__users_login__OK() {
+        let user = helpers::registerUser().await.user;
+        let res = warp::test::request()
+            .method("POST")
+            .path("/users/login")
+            .body(format!(
+                r#"{{"email":"{}", "password":"nopass"}}"#,
+                user.email
+            ))
+            .reply(&crate::router()) // Server routes to respond with
+            .await;
+        assert_eq!(res.status(), 200, "Should return 200 OK.");
+        assert_eq!(
+            res.body(),
+            "{\"user\":{\"email\":\"UEnMNYNMk3qJ@gmail.com\",\"id\":2}}"
+        );
+    }
 
     // User doesn't exist in DB
     #[tokio::test]
@@ -18,13 +49,13 @@ mod login {
         let res = warp::test::request()
             .method("POST")
             .path("/users/login")
-            .body(&"{\"email\":\"Icanthazexists@gmail.com\", \"password\":\"nopass\"}")
+            .body(r#"{"email":"Icanthazexists@gmail.com", "password":"nopass"}"#)
             .reply(&crate::router()) // Server routes to respond with
             .await;
         assert_eq!(res.status(), 401, "Should return 401 Unauthorized.");
         assert_eq!(
             res.body(),
-            "{\"code\":401,\"message\":\"Unauthorized\",\"status\":\"error\"}"
+            r#"{"code":401,"message":"Unauthorized","status":"error"}"#
         );
     }
 
@@ -39,25 +70,25 @@ mod login {
         assert_eq!(res.status(), 405, "Should return 405 Method not Allowed.");
         assert_eq!(
             res.body(),
-            "{\"code\":405,\"message\":\"Method not Allowed\",\"status\":\"error\"}"
+            r#"{"code":405,"message":"Method not Allowed","status":"error"}"#
         );
     }
 }
 
-mod register {
+pub mod register {
     // Happy path
     #[tokio::test]
     async fn test__users_register__OK() {
         let res = warp::test::request()
             .method("POST")
             .path("/users/register")
-            .body(&"{\"email\":\"will.register@gmail.com\", \"password\":\"nopass\"}")
+            .body(r#"{"email":"will.register@gmail.com", "password":"nopass"}"#)
             .reply(&crate::router()) // Server routes to respond with
             .await;
         assert_eq!(res.status(), 200, "Should return 200 OK.");
         assert_eq!(
             res.body(),
-            "{\"user\":{\"email\":\"will.register@gmail.com\",\"id\":1}}"
+            r#"{"user":{"email":"will.register@gmail.com","id":1}}"#
         );
     }
 
@@ -67,19 +98,19 @@ mod register {
         let _res1 = warp::test::request()
             .method("POST")
             .path("/users/register")
-            .body(&"{\"email\":\"will.register.twice@gmail.com\", \"password\":\"nopass\"}")
+            .body(r#"{"email":"will.register.twice@gmail.com", "password":"nopass"}"#)
             .reply(&crate::router()) // Server routes to respond with
             .await;
         let res2 = warp::test::request()
             .method("POST")
             .path("/users/register")
-            .body(&"{\"email\":\"will.register.twice@gmail.com\", \"password\":\"nopass\"}")
+            .body(r#"{"email":"will.register.twice@gmail.com", "password":"nopass"}"#)
             .reply(&crate::router()) // Server routes to respond with
             .await;
         assert_eq!(res2.status(), 409, "Should return 409 Conflict.");
         assert_eq!(
             res2.body(),
-            "{\"code\":409,\"message\":\"Already exists\",\"status\":\"error\"}"
+            r#"{"code":409,"message":"Already exists","status":"error"}"#
         );
     }
 }
