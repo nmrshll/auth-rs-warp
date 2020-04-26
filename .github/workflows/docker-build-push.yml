@@ -1,0 +1,36 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-api:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - uses: docker/build-push-action@v1
+      with:
+        registry: docker.pkg.github.com
+        username: nmrshll
+        password: ${{ secrets.GITHUB_TOKEN }}
+        repository: pacio-core/tender-apps/smartlike-node
+        tag_with_ref: true
+        tag_with_sha: true
+        tags: latest
+        dockerfile: deploy/build.Dockerfile
+
+    - uses: docker/build-push-action@v1
+      with:
+        registry: docker.pkg.github.com
+        username: nmrshll
+        password: ${{ secrets.GITHUB_TOKEN }}
+        repository: pacio-core/tender-apps/smartlike-node-migrations
+        tag_with_ref: true
+        tag_with_sha: true
+        tags: latest
+        dockerfile: deploy/migr.Dockerfile
