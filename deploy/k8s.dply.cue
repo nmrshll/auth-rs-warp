@@ -61,7 +61,7 @@ ingress <Name>: {
 
 deployment api: {
 	spec template spec containers: [{
-		image: "docker.pkg.github.com/pacio-core/tender-apps/smartlike-node:latest"
+		image: "docker.pkg.github.com/nmrshll/auth-rs-warp/api:latest"
 		envFrom: [{ configMapRef name: "config-postgres" }]
 	}]
 	spec template spec imagePullSecrets:[{
@@ -117,8 +117,8 @@ service adminer: {
 
 job migrations: {
 	spec template spec containers: [{
-		image: "docker.pkg.github.com/pacio-core/tender-apps/smartlike-node-migrations:latest"
-		envFrom: [{ secretRef name: "smartlike-node-postgres-db" }]
+		image: "docker.pkg.github.com/nmrshll/auth-rs-warp/api-migrations:latest"
+		envFrom: [{ secretRef name: "auth-rs-warp-postgres-db" }]
 	}]
 	spec template spec imagePullSecrets:[{ name: "regcred-tender-apps" }]
 }
