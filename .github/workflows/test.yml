@@ -30,3 +30,13 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: test
+    services:
+      postgres:
+        image: postgres:alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
