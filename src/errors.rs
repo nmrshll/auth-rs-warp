@@ -13,8 +13,6 @@ pub enum ServiceError {
     NotFound(&'static str),
     #[error("already exists")]
     AlreadyExists(anyhow::Error),
-    #[error("password rejected")]
-    PassVerif,
     #[error(transparent)]
     Other(#[from] anyhow::Error), // source and Display delegate to anyhow::Error
 }
@@ -42,7 +40,7 @@ impl From<argonautica::Error> for ServiceError {
         match e.kind() {
             _ => {
                 dbg!(e.kind());
-                ServiceError::PassVerif
+                ServiceError::Unauthorized
             }
         }
     }
