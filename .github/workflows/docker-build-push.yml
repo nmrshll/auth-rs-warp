@@ -18,7 +18,7 @@ jobs:
         registry: docker.pkg.github.com
         username: nmrshll
         password: ${{ secrets.GITHUB_TOKEN }}
-        repository: pacio-core/tender-apps/smartlike-node
+        repository: ${{ GITHUB.REPOSITORY }}/api
         tag_with_ref: true
         tag_with_sha: true
         tags: latest
@@ -29,7 +29,7 @@ jobs:
         registry: docker.pkg.github.com
         username: nmrshll
         password: ${{ secrets.GITHUB_TOKEN }}
-        repository: pacio-core/tender-apps/smartlike-node-migrations
+        repository: ${{ GITHUB.REPOSITORY }}/migrations
         tag_with_ref: true
         tag_with_sha: true
         tags: latest
