@@ -1,3 +1,5 @@
+![Docker-build-push](https://github.com/nmrshll/auth-rs-warp/workflows/Docker-build-push/badge.svg)
+
 # auth-rs-warp
 
 Authentication / Authorization server example with Rust, Warp, Postgres
@@ -25,11 +27,58 @@ and also:
 - **Docker** daemon running
 - **Rust 1.41+** (auto-installs if missing)
 
-### Starting the server
+### Running the auth server
+
+Three options: On your local machine with Docker, from the Docker image, or using kubernetes
+
+#### On your local machine
 
 Run `make`
 
+This will start docker containers for: the API, the postgres database,
+
+#### From the docker image
+
+Run
+
+```shell
+docker run -p 0.0.0.0:8080:8080 -e DATABASE_URL=postgres://user:pass@postgres/db docker.pkg.github.com/nmrshll/auth-rs-warp/api:latest
+```
+
+In this configuration you need to provide your own postgres server, and run the migrations onto it manually.
+
+#### With Kubernetes
+
+Kubernetes deployment file are included. They need to be applied with [CUE](https://cuelang.org/). Examples of how do do that are included in the [makefile](./makefile)
+
+### Configuration options
+
+Configuration is applied, from highest to lowest priority, through:
+
+- Environment variables
+- Config files (can be `JSON`, `YAML`, `TOML`, `HCL`, `INI`)
+- Hardcoded defaults
+
+These options are:
+
+| Option            | ENV_VAR name      | Config name |
+| ----------------- | :---------------- | :---------- |
+| Database URL      | DATABASE_URL      | \$1600      |
+| Postgres user     | POSTGRES_USER     | \$12        |
+| Postgres password | POSTGRES_PASSWORD | \$1         |
+| Postgres database | POSTGRES_DB       | \$1         |
+
 ## Testing
+
+### Automated
+
+Local testing is available by running
+
+```shell
+make test
+```
+
+### Manual
 
 Test requests are included in the payload (using `curl`)
 
