@@ -93,7 +93,6 @@ dependencies = [
  "r2d2",
  "rand 0.7.3",
  "rust-crypto",
- "secp256k1",
  "serde 1.0.106",
  "serde_derive",
  "serde_json",
@@ -956,7 +955,7 @@ dependencies = [
  "arrayvec",
  "cfg-if",
  "rustc_version",
- "ryu 1.0.4",
+ "ryu",
  "static_assertions",
 ]
 
@@ -1793,12 +1792,6 @@ dependencies = [
 
 [[package]]
 name = "ryu"
-version = "0.2.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b96a9549dc8d48f2c283938303c4b5a77aa29bfbc5b54b084fb1630408899a8f"
-
-[[package]]
-name = "ryu"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ed3d612bc64430efeb3f7ee6ef26d590dce0c43249217bddc62112540c7941e1"
@@ -1841,17 +1834,6 @@ name = "scopeguard"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d29ab0c6d3fc0ee92fe66e2d99f700eab17a8d57d1c1d3b748380fb20baa78cd"
-
-[[package]]
-name = "secp256k1"
-version = "0.16.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c09827284b9998d39f0c176b8c9e7f8ffd7de47bc37f0a5238eb228a9aa20d4d"
-dependencies = [
- "cc",
- "rand 0.6.5",
- "serde 1.0.106",
-]
 
 [[package]]
 name = "semver"
@@ -1906,12 +1888,12 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.39"
+version = "1.0.51"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5a23aa71d4a4d43fdbfaac00eff68ba8a06a51759a89ac3304323e800c4dd40d"
+checksum = "da07b57ee2623368351e9a0488bb0b261322a15a6e0ae53e243cbdc0f4208da9"
 dependencies = [
  "itoa",
- "ryu 0.2.8",
+ "ryu",
  "serde 1.0.106",
 ]
 

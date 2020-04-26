@@ -40,3 +40,28 @@ async fn cookieAuthnStep2(token_str: String) -> Result<AuthnToken, Rejection> {
         Err(_) => return Err(ServiceError::Unauthorized.into()),
     }
 }
+
+// #[cfg(test)]
+// mod tests {
+//     // Note this useful idiom: importing names from outer (for mod tests) scope.
+//     use super::*;
+
+//     // Refer to curl commands in main.rs
+//     #[tokio::test]
+//     async fn cookieAuthn() {
+//         // let hello = hello_route::hello()
+//         //     .and_then(hello_handler::hello);
+//         let filter = cookieAuthn();
+
+//         assert!(!warp::test::request().path("/1/-5").matches(&filter).await);
+
+//         // let res = warp::test::request()
+//         //     .method("GET")
+//         //     .path("/hello/www.steadylearner.com") // 1. [Client] - Define request(path with datas) until this
+//         //     .reply(&hello!()) // 2. [Server] - How will you respond to it? With what?
+//         //     .await;
+
+//         assert_eq!(res.status(), 200, "Should return 200 OK.");
+//         println!("{:#?}", res.body());
+//     }
+// }

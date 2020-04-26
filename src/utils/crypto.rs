@@ -116,7 +116,10 @@ pub mod authn {
             Ok(Self::from_bytes(&bytes)?)
         }
         pub fn header_val(&self) -> String {
-            format!("token={};Path=/", self.to_str())
+            format!(
+                "token={};Path=/;SameSite=Strict;Secure;HttpOnly",
+                self.to_str()
+            )
         }
     }
     #[derive(Debug)]

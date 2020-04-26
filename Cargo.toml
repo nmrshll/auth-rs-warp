@@ -6,10 +6,10 @@ edition = "2018"
 
 [dependencies]
 tokio = { version = "0.2", features = ["macros"] }
-warp = "0.2.2"
-serde = "1.0.105"
-serde_derive = "1.0.105"
-serde_json = { version = "=1.0.39" }
+warp = { version = "0.2.2" }
+serde = "1.0.106"
+serde_derive = "1.0.106"
+serde_json = { version = "=1.0.51" }
 
 # db, models
 diesel = { version = "1.4.2", features = ["postgres", "uuidv07", "r2d2", "chrono"] }
@@ -27,6 +27,8 @@ log = "0.4.1"
 pretty_env_logger = "0.3"
 # dotenv = "0.14.1"
 
+# testing
+
 # hyper = "=0.13.0-alpha.1"
 # futures-util-preview = { version = "=0.3.0-alpha.18" }
 # regex = "1.0"
@@ -38,7 +40,7 @@ pretty_env_logger = "0.3"
 
 # crypto, auth
 ed25519-dalek = { version = "1.0.0-pre.3", features = ["nightly"] }
-secp256k1 = {version = "0.16.0", features = ["rand","serde"]}
+# secp256k1 = {version = "0.16.0", features = ["rand","serde"]}
 argonautica = "0.2.0"
 rust-crypto = "^0.2"
 bytes = "0.4.12"

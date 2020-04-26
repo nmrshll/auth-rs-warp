@@ -47,12 +47,12 @@ impl From<argonautica::Error> for ServiceError {
         }
     }
 }
-impl From<secp256k1::Error> for ServiceError {
-    fn from(e: secp256k1::Error) -> Self {
-        dbg!("secp error", &e);
-        ServiceError::Other(e.into())
-    }
-}
+// impl From<secp256k1::Error> for ServiceError {
+//     fn from(e: secp256k1::Error) -> Self {
+//         dbg!("secp error", &e);
+//         ServiceError::Other(e.into())
+//     }
+// }
 impl From<base64::DecodeError> for ServiceError {
     fn from(e: base64::DecodeError) -> Self {
         dbg!("base64 error", &e);

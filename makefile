@@ -4,6 +4,8 @@ dev: deps pg adminer migrate
 	cargo watch -x run
 build:
 	docker build -f .config/deploy/build.Dockerfile -t ${cwd} . 
+test:
+	cargo test -- --nocapture
 
 
 # REQUESTS
