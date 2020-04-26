@@ -5,7 +5,7 @@ dev: deps pg adminer migrate
 build:
 	docker build -f .config/deploy/build.Dockerfile -t ${cwd} . 
 test: down deps pg migrate
-	RUST_BACKTRACE=full cargo test -- --nocapture 
+	cargo test -- --nocapture 
 
 
 # REQUESTS
