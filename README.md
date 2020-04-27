@@ -56,7 +56,7 @@ Kubernetes deployment file are included. They need to be applied with [CUE](http
 Configuration is applied, from highest to lowest priority, through:
 
 - Environment variables
-- Config files (can be `JSON`, `YAML`, `TOML`, `HCL`, `INI`)
+- Config file (`JSON`, `YAML`, `TOML`, `HCL`, or `INI`) located at `./.config/api_config` (relative to the api binary/workdir inside docker)
 - Hardcoded defaults
 
 These options are:
