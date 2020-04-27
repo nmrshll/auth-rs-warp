@@ -1,4 +1,4 @@
-![Docker-build-push](https://github.com/nmrshll/auth-rs-warp/workflows/Docker-build-push/badge.svg)
+[![Docker-build-push](https://github.com/nmrshll/auth-rs-warp/workflows/Docker-build-push/badge.svg)](https://github.com/nmrshll/auth-rs-warp/actions?query=workflow%3ADocker-build-push)
 
 # auth-rs-warp
 
