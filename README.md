@@ -49,9 +49,9 @@ In this configuration you need to provide your own postgres server, and run the 
 
 #### With Kubernetes
 
-A Kubernetes deployment file is [included](./deploy/k8s.dply.cue). It needs to be applied with [CUE](https://cuelang.org/). Examples of how do do that are included in the [makefile](./makefile)
+A Kubernetes deployment file is [included](./deploy/k8s.dply.cue). It needs to be applied with [CUE](https://cuelang.org/). Examples commands to do that are included in the [makefile](./makefile)
 
-For instance for a complete deployment on the curent kubernetes context:
+For instance for a complete deployment on the current kubernetes context:
 
 ```shell
 make k.all
