@@ -25,7 +25,7 @@ and also:
 ### Prerequisites
 
 - **Docker** daemon running
-- **Rust 1.41+** (auto-installs if missing)
+- **Rust nightly 1.41+** (auto-installs if missing)
 
 ### Running the auth server
 
