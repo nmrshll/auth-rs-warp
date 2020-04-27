@@ -61,12 +61,18 @@ Configuration is applied, from highest to lowest priority, through:
 
 These options are:
 
-| Option            | ENV_VAR name      | Config name |
-| ----------------- | :---------------- | :---------- |
-| Database URL      | DATABASE_URL      | \$1600      |
-| Postgres user     | POSTGRES_USER     | \$12        |
-| Postgres password | POSTGRES_PASSWORD | \$1         |
-| Postgres database | POSTGRES_DB       | \$1         |
+| Option            | ENV_VAR name        | Config name         | Default              |
+| ----------------- | :------------------ | :------------------ | -------------------- |
+| Postgres DSN      | `DATABASE_URL`      | `database_url`      |                      |
+| Postgres user     | `POSTGRES_USER`     | `postgres_user`     |                      |
+| Postgres password | `POSTGRES_PASSWORD` | `postgres_password` |                      |
+| Postgres database | `POSTGRES_DB`       | `postgres_db`       |                      |
+| Postgres host     | `POSTGRES_HOST`     | `postgres_db`       |                      |
+| HTTP port         | `HTTP_PORT`         | `http_port`         | `8080`               |
+| Log level         | `RUST_LOG`          | `postgres_db`       | `auth-rs-warp=debug` |
+| Enable backtraces | `RUST_BACKTRACE`    | `rust_backtrace`    | `1`                  |
+
+Note: At least one of `database_url` / `postgres_host/user/pw/db` must be defined. If both defined they must be compatible
 
 ## Testing
 
@@ -80,7 +86,7 @@ make test
 
 ### Manual
 
-Test requests are included in the payload (using `curl`)
+Test requests are included in the makefile (using `curl`)
 
 - **Register a user** using `make users/register`
 - **Check if an email is already taken** using `make users/check`
