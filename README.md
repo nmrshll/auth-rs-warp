@@ -62,7 +62,7 @@ make k.all
 Configuration is applied, from highest to lowest priority, through:
 
 - Environment variables
-- Config file (`JSON`, `YAML`, `TOML`, `HCL`, or `INI`) located at `./.config/api_config` (relative to the api binary/workdir inside docker)
+- Config file located at `./.config/api_config(.ext)?` (relative to the binary). The config format (and extension `(.ext)?`) can be `json`,`yaml`,`toml`,`hcl`, `ini` or none (autodetected).
 - Hardcoded defaults
 
 These options are:
