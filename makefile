@@ -19,10 +19,6 @@ users/check:
 	curl ${post} ${addr}/users/check -d '{"email":"user.email@gmail.com"}'
 users/register:
 	curl ${post} ${addr}/users/register -d '{"email":"user.email@gmail.com","password":"nopass"}'
-posts/create:
-	curl ${post} ${addr}/posts -d '{"title":"someTitle","body":"someBody"}' -b token=AAAAAF3avy4AAAAAXdwQrgAAAAAAAAABZvLHEexqQgbaTTniiMEqSGlWfoAUPEpfSXRMwQErfrF05DCvVOAFO1JaC/9bld5K4xmfvlwT/cs5FQNVJ7ll6A==
-addr/create:
-	curl ${post} ${addr}/addresses -d '{"title":"someTitle","body":"someBody"}' -b token=AAAAAF6h6/EAAAAAXqM9cQAAAAAAAAABEaZxxSgRcf1BlRhTRfMsuiajq9iXIRux4aF7R1MMob+/wJDuPz2J/+C75foFfFm24LEogyTewQ0obdTqeXrjDw==
 addr=$(if $(filter $(ENV),P),https://api-nmrshll.cloud.okteto.net,http://0.0.0.0:8080)
 post= -X POST -H "Content-Type: application/json"
 
@@ -36,13 +32,12 @@ adminer:
 	$(eval srvc=adminer) ${(re)launchContainer} -d -p 127.0.0.1:7897:8080 adminer:4.2.5
 migrate: 
 	@$(eval SHELL:=/bin/bash) while ! test "`echo -ne "\x00\x00\x00\x17\x00\x03\x00\x00user\x00username\x00\x00" | nc -w 3 127.0.0.1 5432 2>/dev/null | head -c1`" = R; do echo "waiting on postgres..."; sleep 0.3; done;
-	diesel migration run	
+	DATABASE_URL=postgres://docker:docker@127.0.0.1/docker diesel migration run	
 migrate2:
 	docker run --rm \
     -w /workdir -v $(shell pwd)/migrations:/workdir/migrations \
     -e DATABASE_URL="postgres://docker:docker@host.docker.internal/docker" \
     -it clux/diesel-cli diesel migration run
-export DATABASE_URL=postgres://docker:docker@127.0.0.1/docker
 down:
 	-docker rm -f -v `docker ps -a -q --filter "name=${cwd}"`
 logs: 
