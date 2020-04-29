@@ -16,11 +16,15 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: test
+          env:
+              DATABASE_URL=postgres://test:test:postgres/test
     services:
       postgres:
         image: postgres:alpine
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
