@@ -1,11 +1,11 @@
 .PHONY: all $(MAKECMDGOALS)
 .DEFAULT_GOAL=dev
 dev: deps pg adminer migrate
-	cargo watch -x run
+	${pg_dsn} cargo watch -x run
 build:
 	docker build -f .config/deploy/build.Dockerfile -t ${cwd} . 
 test: down deps pg migrate
-	cargo test -- --nocapture 
+	${pg_dsn} cargo test -- --nocapture 
 
 
 # REQUESTS
@@ -32,7 +32,7 @@ adminer:
 	$(eval srvc=adminer) ${(re)launchContainer} -d -p 127.0.0.1:7897:8080 adminer:4.2.5
 migrate: 
 	@$(eval SHELL:=/bin/bash) while ! test "`echo -ne "\x00\x00\x00\x17\x00\x03\x00\x00user\x00username\x00\x00" | nc -w 3 127.0.0.1 5432 2>/dev/null | head -c1`" = R; do echo "waiting on postgres..."; sleep 0.3; done;
-	DATABASE_URL=postgres://docker:docker@127.0.0.1/docker diesel migration run	
+	${pg_dsn} diesel migration run	
 migrate2:
 	docker run --rm \
     -w /workdir -v $(shell pwd)/migrations:/workdir/migrations \
@@ -46,6 +46,7 @@ cwd = $(notdir $(shell pwd))
 container_name = ${cwd}-${srvc}
 ifContainerMissing = @docker container inspect ${container_name} > /dev/null 2>&1 || 
 (re)launchContainer = ${ifContainerMissing} docker run --rm --name ${container_name} -v $(shell pwd)/.config:/config:ro --stop-signal "SIGINT"
+pg_dsn=DATABASE_URL=postgres://docker:docker@127.0.0.1/docker
 pull:
 	docker pull hello-world
 

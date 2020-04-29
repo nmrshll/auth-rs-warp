@@ -1,2 +1,2 @@
 http_port = 8080
-database_url = "postgres://docker:docker@127.0.0.1/docker"
+# database_url = "postgres://docker:docker@127.0.0.1/docker"
