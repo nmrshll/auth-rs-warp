@@ -83,7 +83,7 @@ fn validate(config: &Config) -> Result<(), AnyErr> {
         (Some(url), Ok(Some(_))) => {
             anyhow::ensure!(
                 config.pg_dsn_from_env_vars() == Some(url.to_string()),
-                "ENV_VARS and DSN must match if both defined"
+                "PG_ENV_VARS and DSN must match if both defined"
             );
         }
         _ => {}
