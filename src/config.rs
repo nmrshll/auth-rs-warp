@@ -61,10 +61,10 @@ impl<'a> Config<'a> {
 
 fn load<'a>() -> Result<Config<'a>, AnyErr> {
     let mut s = ConfigLoader::new();
-    s.set_default("port", 8080)?;
+    s.set_default("http_port", 8080)?;
     s.set_default("rust_log", "auth-rs-warp=debug")?;
     s.set_default("rust_backtrace", 1)?;
-    s.merge(File::with_name("./.config/api_config").required(true))?;
+    s.merge(File::with_name("./.config/api_config").required(false))?;
     s.merge(Environment::new())?;
     let config = s.try_into::<Config>().context("failed parsing")?;
     validate(&config)?;
