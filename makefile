@@ -5,7 +5,7 @@ dev: deps pg adminer migrate
 build:
 	docker build -f .config/deploy/build.Dockerfile -t ${cwd} . 
 test: down deps pg migrate
-	${pg_dsn} cargo test -- --nocapture 
+	${pg_dsn} cargo test -- --nocapture
 
 
 # REQUESTS

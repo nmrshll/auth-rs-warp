@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
-extern crate openssl; // for musl. Before diesel macro imports
+extern crate openssl; // for musl (if using alpine). Before diesel macro imports
 #[macro_use]
 extern crate diesel;
 #[macro_use]
