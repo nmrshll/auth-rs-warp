@@ -13,7 +13,7 @@ Authentication / Authorization server example with Rust, Warp, Postgres
 
 and also:
 
-- **Great performance and minimal footprint** thanks to Rust, Hyper, tokio and futures / async-await
+- **Great performance and minimal footprint** thanks to async Rust
 - **Users database** using Postgres
 
 ### Limitations
